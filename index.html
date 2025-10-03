@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Safety and Security Workshop (ELLIS UnConference)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #0a0a0a;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --text-tertiary: #999;
+            --border-light: #f0f0f0;
+            --bg-subtle: #fafafa;
+            --accent-green: #e8f5e9;
+            --accent-green-medium: #a5d6a7;
+            --accent-green-dark: #66bb6a;
+            --max-width: 1100px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 65px;
+        }
+
+        .nav-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-green-dark);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-black);
+        }
+
+        /* Hero Banner with Background Image */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            margin-top: 65px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(165, 214, 167, 0.3) 0%, rgba(232, 245, 233, 0.5) 100%),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><pattern id="circuit" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse"><rect width="200" height="200" fill="%23e8f5e9"/><circle cx="50" cy="50" r="3" fill="%2366bb6a" opacity="0.3"/><circle cx="150" cy="50" r="3" fill="%2366bb6a" opacity="0.3"/><circle cx="50" cy="150" r="3" fill="%2366bb6a" opacity="0.3"/><circle cx="150" cy="150" r="3" fill="%2366bb6a" opacity="0.3"/><path d="M50 50 L150 50 M50 150 L150 150 M50 50 L50 150 M150 50 L150 150 M50 50 L150 150 M150 50 L50 150" stroke="%23a5d6a7" stroke-width="0.5" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23circuit)"/></svg>');
+            background-size: cover, 400px 400px;
+            background-position: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(232, 245, 233, 0.95) 0%, 
+                rgba(255, 255, 255, 0.9) 50%,
+                rgba(232, 245, 233, 0.95) 100%);
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3;
+            width: 90%;
+            max-width: 950px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5.5vw, 3.8rem);
+            color: var(--primary-black);
+            font-weight: 200;
+            letter-spacing: -1px;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+        }
+
+        .hero-meta {
+            margin-top: 30px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+        }
+
+        /* Content Sections */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section {
+            padding-top: 60px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        section:first-of-type {
+            padding-top: 40px;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 50px;
+            color: var(--primary-black);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-green-dark);
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        /* People Cards */
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 900px) {
+            .people-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .people-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .person-card {
+            background: transparent;
+            text-align: center;
+            transition: all 0.3s ease;
+            padding: 20px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ffffff, var(--accent-green));
+            border: 1px solid var(--border-light);
+        }
+
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 187, 106, 0.1);
+        }
+
+        .person-image {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .person-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .person-info {
+            padding: 0;
+        }
+
+        .person-name {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-black);
+            letter-spacing: 0.3px;
+        }
+
+        .person-affiliation {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0 auto;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: linear-gradient(135deg, var(--accent-green), #ffffff);
+            padding: 35px 30px;
+            border-left: 4px solid var(--accent-green-dark);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin: 30px 0;
+        }
+
+        .info-box h3 {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            margin-top: 0;
+            color: var(--primary-black);
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Poster Section */
+        .venues-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .venue-tag {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .venue-tag:hover {
+            transform: translateY(-2px);
+            background: var(--accent-green);
+            border-color: var(--accent-green-medium);
+            color: var(--primary-black);
+        }
+
+        /* Themes Section */
+        .theme-list {
+            background: var(--accent-green);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .theme-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .theme-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .theme-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green-dark);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            text-align: center;
+            padding: 60px;
+            background: linear-gradient(135deg, var(--accent-green), white);
+            border-radius: 12px;
+            margin-top: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-email {
+            font-size: 1.3rem;
+            color: var(--primary-black);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-weight: 300;
+        }
+
+        .contact-email::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent-green-dark);
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-email:hover {
+            color: var(--text-secondary);
+        }
+
+        .contact-email:hover::after {
+            transform: scaleX(0);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .hero-banner {
+                height: 450px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            section {
+                padding-top: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-title">LLM Safety and Security Workshop (ELLIS UnConference)</div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#organizers" class="nav-link">Organizers</a>
+                <a href="#speakers" class="nav-link">Speakers</a>
+                <a href="#schedule" class="nav-link">Schedule</a>
+                <a href="#posters" class="nav-link">Call for Posters</a>
+                <a href="#dates" class="nav-link">Important Dates</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner with Background Pattern -->
+    <div class="hero-banner">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>LLM Safety and Security Workshop</h1>
+            <div class="hero-subtitle">ELLIS UnConference</div>
+            <div class="hero-meta">Date & Location: December 2, 2025 • Copenhagen, Denmark</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- About Section -->
+        <section id="about">
+            <h2>About the Workshop</h2>
+
+            <p>
+                This workshop brings together leading researchers to investigate the foundational safety and security vulnerabilities of large language models (LLMs). As the threat landscape evolves—driven by ever-larger model scales, ubiquitous deployment, and increasingly agentic behaviour—there is a pressing need for principled mitigation strategies grounded in empirical evidence. By providing a focused forum for rigorous discussion and collaboration, the workshop aims to sharpen our collective understanding of emerging risks and to catalyse robust, technically sound defences.
+            </p>
+            
+            <p>
+                The workshop will consist of a keynote on LLM Safety and Security and a poster session combined with networking between participants.
+            </p>
+
+            <div class="theme-list">
+                <p><strong>Expected discussion themes include:</strong></p>
+                <ul>
+                    <li>Safety and security of LLMs and LLM-based agents</li>
+                    <li>Evaluation frameworks, metrics, and open benchmarks</li>
+                    <li>Explainability and interpretability methods</li>
+                    <li>Robustness to adversarial prompts and distribution shifts</li>
+                    <li>Fairness and bias mitigation</li>
+                    <li>Alignment and deceptive-alignment challenges</li>
+                    <li>Data-poisoning and supply-chain attacks</li>
+                    <li>Guardrails, red-teaming, and secure deployment practice</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Organizers Section -->
+        <section id="organizers">
+            <h2>Organizers</h2>
+          
+            <div class="people-grid">
+              <div class="person-card" data-url="https://egozverev.github.io/">
+                <div class="person-image">
+                  <img src="assets/egor.png" alt="Egor Zverev" onerror="this.style.display='none'">
+                </div>
+                <div class="person-info">
+                  <div class="person-name">Egor Zverev</div>
+                  <div class="person-affiliation">Institute of Science and Technology Austria</div>
+                </div>
+              </div>
+          
+              <div class="person-card" data-url="https://aideen.ghost.io/about/">
+                <div class="person-image">
+                  <img src="assets/aideen.jpeg" alt="Aideen Fay" onerror="this.style.display='none'">
+                </div>
+                <div class="person-info">
+                  <div class="person-name">Aideen Fay</div>
+                  <div class="person-affiliation">Microsoft &amp; Imperial College London</div>
+                </div>
+              </div>
+          
+              <div class="person-card" data-url="https://s-abdelnabi.github.io/">
+                <div class="person-image">
+                  <img src="assets/sahar.jpg" alt="Sahar Abdelnabi" onerror="this.style.display='none'">
+                </div>
+                <div class="person-info">
+                  <div class="person-name">Sahar Abdelnabi</div>
+                  <div class="person-affiliation">Microsoft, ELLIS Institute Tübingen, MPI-IS &amp; Tübingen AI Center</div>
+                </div>
+              </div>
+          
+              <div class="person-card" data-url="https://cispa.de/en/people/mario.fritz">
+                <div class="person-image">
+                  <img src="assets/mario.jpeg" alt="Mario Fritz" onerror="this.style.display='none'">
+                </div>
+                <div class="person-info">
+                  <div class="person-name">Mario Fritz</div>
+                  <div class="person-affiliation">CISPA Helmholtz Center &amp; Saarland University</div>
+                </div>
+              </div>
+          
+              <div class="person-card" data-url="https://cvml.ista.ac.at/">
+                <div class="person-image">
+                  <img src="assets/christoph.jpg" alt="Christoph H. Lampert" onerror="this.style.display='none'">
+                </div>
+                <div class="person-info">
+                  <div class="person-name">Christoph H. Lampert</div>
+                  <div class="person-affiliation">Institute of Science and Technology Austria</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        <!-- Speakers Section -->
+        <section id="speakers">
+            <h2>Speakers</h2>
+            <p>TBA</p>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule">
+            <h2>Tentative Schedule</h2>
+            <p>TBA</p>
+        </section>
+
+        <!-- Call for Posters Section -->
+        <section id="posters">
+            <h2>Call for Posters</h2>
+            
+            <p>
+                We invite posters for works previously accepted at one of the following venues or associated LLM Safety/Security workshops (<strong>Submission link TBA</strong>):
+            </p>
+            
+            <div class="venues-grid">
+                <span class="venue-tag">NeurIPS 2025</span>
+                <span class="venue-tag">ICLR 2025</span>
+                <span class="venue-tag">ICML 2025</span>
+                <span class="venue-tag">IEEE S&P 2025</span>
+                <span class="venue-tag">USENIX Security 2025</span>
+                <span class="venue-tag">ACM CCS 2025</span>
+                <span class="venue-tag">NDSS 2025</span>
+                <span class="venue-tag">ACL 2025</span>
+                <span class="venue-tag">NAACL 2025</span>
+                <span class="venue-tag">ICCV 2025</span>
+                <span class="venue-tag">R:SS 2025</span>
+                <span class="venue-tag">ICRA 2025</span>
+                <span class="venue-tag">EMNLP 2025</span>
+                <span class="venue-tag">COLT 2025</span>
+                <span class="venue-tag">CVPR 2025</span>
+                <span class="venue-tag">AISTATS 2025</span>
+                <span class="venue-tag">AAAI 2025</span>
+                <span class="venue-tag">IROS 2025</span>
+                <span class="venue-tag">UAI 2025</span>
+                <span class="venue-tag">TMLR</span>
+                <span class="venue-tag">JMLR</span>
+            </div>
+            
+            
+            <p style="margin-top: 2rem; padding: 1.5rem; background: var(--accent-green); border-radius: 8px; border-left: 3px solid var(--accent-green-dark);">
+                <strong>First come first serve:</strong> In case the number of submitted posters is greater than venue's capacity, posters submitted earlier will be given priority.
+            </p>
+        </section>
+
+        <!-- Important Dates Section -->
+        <section id="dates">
+            <h2>Important Dates</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+                <div class="info-box">
+                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Submission Deadline</h3>
+                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">October 25, 2025</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Notification</h3>
+                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">October 31, 2025</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Workshop</h3>
+                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">December 6-7, 2025</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact</h2>
+            
+            <div class="contact-info">
+                <p style="margin-bottom: 25px; font-size: 1.05rem;">For questions about the workshop, please contact egor dot zverev at ist.ac.at </p>
+                <p style="margin-top: 40px; color: var(--text-tertiary); font-size: 0.9rem;">
+                    ELLIS UnConference LLM Safety and Security Workshop
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Section highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
