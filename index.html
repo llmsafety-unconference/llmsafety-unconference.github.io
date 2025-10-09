@@ -176,6 +176,28 @@
             animation: fadeInUp 1s ease-out 0.4s forwards;
         }
 
+        .submit-button {
+            display: inline-block;
+            background: var(--accent-green-dark);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent-green-dark);
+            margin-bottom: 30px;
+        }
+
+        .submit-button:hover {
+            background: white;
+            color: var(--accent-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 187, 106, 0.3);
+        }
+
         /* Content Sections */
         .container {
             max-width: 900px;
@@ -614,9 +636,12 @@
         <!-- Call for Posters Section -->
         <section id="posters">
             <h2>Call for Posters</h2>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfVnh4XW5u-_SuAccRbxhjWQfFKTH3i8dJ3ZcQOQwc2s1pFlw/viewform" class="submit-button">Submit Poster</a>
+
             
             <p>
-                We invite posters for works previously accepted at one of the following venues or associated LLM Safety/Security workshops (<strong>Submission link TBA</strong>):
+                We invite posters for works previously accepted at one of the following venues or associated LLM Safety/Security workshops (<strong><a href="https://docs.google.com/forms/d/e/1FAIpQLSfVnh4XW5u-_SuAccRbxhjWQfFKTH3i8dJ3ZcQOQwc2s1pFlw/viewform" style="color: var(--accent-green-dark); text-decoration: none; border-bottom: 1px solid var(--accent-green-dark);">Submission link</a></strong>):
             </p>
             
             <div class="venues-grid">
