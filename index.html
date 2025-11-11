@@ -507,6 +507,47 @@
                 padding-top: 50px;
             }
         }
+            /* Schedule */
+        .schedule-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        background: white;
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        overflow: hidden;
+        }
+        .schedule-table tr:nth-child(odd) td {
+        background: var(--bg-subtle);
+        }
+        .schedule-table td {
+        padding: 14px 16px;
+        vertical-align: top;
+        }
+        .schedule-time {
+        width: 170px;
+        font-weight: 600;
+        color: var(--primary-black);
+        white-space: nowrap;
+        }
+        .schedule-desc {
+        color: var(--text-secondary);
+        }
+        @media (max-width: 600px) {
+        .schedule-time {
+            display: block;
+            width: auto;
+            margin-bottom: 4px;
+        }
+        .schedule-table td {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+        }
+        .schedule-table tr td + td {
+            padding-top: 0;
+        }
+        }
     </style>
 </head>
 <body>
@@ -546,7 +587,7 @@
             </p>
             
             <p>
-                The workshop will last 1.5 hours and will consist of a keynote and a poster session combined with networking between participants.
+                The workshop will last have 3 x 1.5 hours blocks and will consist of keynotes and a poster session combined with networking between participants.
             </p>
 
             <div class="theme-list">
@@ -564,6 +605,136 @@
             </div>
         </section>
 
+        
+
+        <!-- Speakers Section -->
+        <section id="speakers">
+            <h2>Speakers</h2>
+            <div class="people-grid">
+                <div class="person-card" data-url="https://www.microsoft.com/en-us/research/people/jonesdaniel/">
+                  <div class="person-image">
+                    <img src="assets/daniel.jpg" alt="Daniel Jones" onerror="this.style.display='none'">
+                  </div>
+                  <div class="person-info">
+                    <div class="person-name">Daniel Jones</div>
+                    <div class="person-affiliation"> AI Red Team at Microsoft</div>
+                  </div>
+                </div>
+
+                <div class="person-card" data-url="https://apepa.github.io/">
+                    <div class="person-image">
+                      <img src="assets/pepa.png" alt="Pepa Atanasova" onerror="this.style.display='none'">
+                    </div>
+                    <div class="person-info">
+                      <div class="person-name">Pepa Atanasova</div>
+                      <div class="person-affiliation"> University of Copenhagen</div>
+                    </div>
+                  </div>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule">
+            <h2>Schedule</h2>
+          
+            <table class="schedule-table">
+              <tr>
+                <td class="schedule-time">08:00–09:00</td>
+                <td class="schedule-desc">Registration</td>
+              </tr>
+              <tr>
+                <td class="schedule-time">09:00–10:30</td>
+                <td class="schedule-desc">Talks</td>
+              </tr>
+              <tr>
+                <td class="schedule-time">10:30–11:00</td>
+                <td class="schedule-desc">Coffee break</td>
+              </tr>
+              <tr>
+                <td class="schedule-time">11:00–12:30</td>
+                <td class="schedule-desc">Poster session + Socials</td>
+              </tr>
+              <tr>
+                <td class="schedule-time">12:30–13:30</td>
+                <td class="schedule-desc">Lunch</td>
+              </tr>
+              <tr>
+                <td class="schedule-time">13:30–15:00</td>
+                <td class="schedule-desc">Talks</td>
+              </tr>
+              <tr>
+                <td class="schedule-time">15:00–20:00</td>
+                <td class="schedule-desc">ELLIS Unconference Program</td>
+              </tr>
+            </table>
+          
+            <p style="margin-top:12px;color:var(--text-tertiary);font-size:0.9rem;">
+              All times are local (Copenhagen, CET).
+            </p>
+          </section>
+
+        <!-- Call for Posters Section -->
+        <section id="posters">
+            <h2>Call for Posters</h2>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfVnh4XW5u-_SuAccRbxhjWQfFKTH3i8dJ3ZcQOQwc2s1pFlw/viewform" class="submit-button">Submissions Closed</a>
+
+            
+            <p>
+                We invite posters for works previously accepted at one of the following venues or associated LLM Safety/Security workshops:
+            </p>
+            
+            <div class="venues-grid">
+                <span class="venue-tag">NeurIPS 2025</span>
+                <span class="venue-tag">ICLR 2025</span>
+                <span class="venue-tag">ICML 2025</span>
+                <span class="venue-tag">IEEE S&P 2025</span>
+                <span class="venue-tag">USENIX Security 2025</span>
+                <span class="venue-tag">ACM CCS 2025</span>
+                <span class="venue-tag">NDSS 2025</span>
+                <span class="venue-tag">ACL 2025</span>
+                <span class="venue-tag">NAACL 2025</span>
+                <span class="venue-tag">ICCV 2025</span>
+                <span class="venue-tag">R:SS 2025</span>
+                <span class="venue-tag">ICRA 2025</span>
+                <span class="venue-tag">EMNLP 2025</span>
+                <span class="venue-tag">COLT 2025</span>
+                <span class="venue-tag">CVPR 2025</span>
+                <span class="venue-tag">AISTATS 2025</span>
+                <span class="venue-tag">AAAI 2025</span>
+                <span class="venue-tag">IROS 2025</span>
+                <span class="venue-tag">UAI 2025</span>
+                <span class="venue-tag">TMLR</span>
+                <span class="venue-tag">JMLR</span>
+            </div>
+            
+            
+            <p style="margin-top: 2rem; padding: 1.5rem; background: var(--accent-green); border-radius: 8px; border-left: 3px solid var(--accent-green-dark);">
+                <strong>First come first serve:</strong> In case the number of submitted posters is greater than venue's capacity, posters submitted earlier will be given priority.
+            </p>
+        </section>
+
+        <!-- Important Dates Section -->
+        <section id="dates">
+            <h2>Important Dates</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+                <div class="info-box">
+                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Submission Deadline</h3>
+                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">October 28, 2025</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Notification</h3>
+                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">October 31, 2025</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Workshop</h3>
+                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">December 2, 2025</p>
+                </div>
+            </div>
+        </section>
         <!-- Organizers Section -->
         <section id="organizers">
             <h2>Organizers</h2>
@@ -620,82 +791,6 @@
               </div>
             </div>
           </section>
-
-        <!-- Speakers Section -->
-        <section id="speakers">
-            <h2>Speakers</h2>
-            <p>TBA</p>
-        </section>
-
-        <!-- Schedule Section -->
-        <section id="schedule">
-            <h2>Tentative Schedule</h2>
-            <p>TBA</p>
-        </section>
-
-        <!-- Call for Posters Section -->
-        <section id="posters">
-            <h2>Call for Posters</h2>
-
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfVnh4XW5u-_SuAccRbxhjWQfFKTH3i8dJ3ZcQOQwc2s1pFlw/viewform" class="submit-button">Submit Poster</a>
-
-            
-            <p>
-                We invite posters for works previously accepted at one of the following venues or associated LLM Safety/Security workshops (<strong><a href="https://docs.google.com/forms/d/e/1FAIpQLSfVnh4XW5u-_SuAccRbxhjWQfFKTH3i8dJ3ZcQOQwc2s1pFlw/viewform" style="color: var(--accent-green-dark); text-decoration: none; border-bottom: 1px solid var(--accent-green-dark);">Submission link</a></strong>):
-            </p>
-            
-            <div class="venues-grid">
-                <span class="venue-tag">NeurIPS 2025</span>
-                <span class="venue-tag">ICLR 2025</span>
-                <span class="venue-tag">ICML 2025</span>
-                <span class="venue-tag">IEEE S&P 2025</span>
-                <span class="venue-tag">USENIX Security 2025</span>
-                <span class="venue-tag">ACM CCS 2025</span>
-                <span class="venue-tag">NDSS 2025</span>
-                <span class="venue-tag">ACL 2025</span>
-                <span class="venue-tag">NAACL 2025</span>
-                <span class="venue-tag">ICCV 2025</span>
-                <span class="venue-tag">R:SS 2025</span>
-                <span class="venue-tag">ICRA 2025</span>
-                <span class="venue-tag">EMNLP 2025</span>
-                <span class="venue-tag">COLT 2025</span>
-                <span class="venue-tag">CVPR 2025</span>
-                <span class="venue-tag">AISTATS 2025</span>
-                <span class="venue-tag">AAAI 2025</span>
-                <span class="venue-tag">IROS 2025</span>
-                <span class="venue-tag">UAI 2025</span>
-                <span class="venue-tag">TMLR</span>
-                <span class="venue-tag">JMLR</span>
-            </div>
-            
-            
-            <p style="margin-top: 2rem; padding: 1.5rem; background: var(--accent-green); border-radius: 8px; border-left: 3px solid var(--accent-green-dark);">
-                <strong>First come first serve:</strong> In case the number of submitted posters is greater than venue's capacity, posters submitted earlier will be given priority.
-            </p>
-        </section>
-
-        <!-- Important Dates Section -->
-        <section id="dates">
-            <h2>Important Dates</h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
-                <div class="info-box">
-                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Submission Deadline</h3>
-                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">October 28, 2025</p>
-                </div>
-                
-                <div class="info-box">
-                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Notification</h3>
-                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">October 31, 2025</p>
-                </div>
-                
-                <div class="info-box">
-                    <h3 style="font-size: 0.9rem; color: var(--text-tertiary); margin-bottom: 10px;">Workshop</h3>
-                    <p style="font-size: 1.4rem; font-weight: 300; color: var(--primary-black); margin: 0;">December 2, 2025</p>
-                </div>
-            </div>
-        </section>
-
         <!-- Contact Section -->
         <section id="contact">
             <h2>Contact</h2>
