@@ -548,6 +548,26 @@
             padding-top: 0;
         }
         }
+        .talk-title {
+            font-weight: 600;
+            color: var(--primary-black);
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .talk-speaker {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .talk-abstract {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -616,7 +636,7 @@
                     <img src="assets/isabel.png" alt="Isabel Valera" onerror="this.style.display='none'">
                   </div>
                   <div class="person-info">
-                    <div class="person-name">Professor Isabel Valera</div>
+                    <div class="person-name">Dr. Isabel Valera</div>
                     <div class="person-affiliation"> Professor of Machine Learning at Saarland University</div>
                   </div>
                 </div>
@@ -647,23 +667,49 @@
         <!-- Schedule Section -->
         <section id="schedule">
             <h2>Schedule</h2>
-          
+            <h3>Location: Room 19</h3>
             <table class="schedule-table">
               <tr>
-                <td class="schedule-time">08:00–09:00</td>
-                <td class="schedule-desc">Registration</td>
+                <td class="schedule-time">08:50–09:00</td>
+                <td class="schedule-desc">Workshop Intro by Organizers</td>
               </tr>
               <tr>
-                <td class="schedule-time">09:00–10:30</td>
-                <td class="schedule-desc">Talks</td>
+              <td class="schedule-time">09:00–9:45</td>
+              <td class="schedule-desc">
+                  <div class="talk-title">When Explanations Lie: Testing and Improving Faithfulness in Model Reasoning</div>
+                  <div class="talk-speaker">Dr. Pepa Atanasova</div>
+                  <div class="talk-abstract">
+                    As LLMs become deployed in critical domains, we increasingly rely on their explanations to verify correct reasoning, detect problematic behavior, and ensure alignment with human values. But what if these explanations are plausible lies? This talk examines the faithfulness problem in model explanations, where models generate convincing rationales that don't reflect their actual reasoning process. I'll present concrete methods for testing explanation faithfulness, discuss how unfaithful explanations create safety vulnerabilities, and demonstrate techniques that can produce more honest model outputs. This work has critical implications for AI safety -- from enabling more reliable interpretability to enabling better alignment verification and more reliable human oversight of AI systems.
+                  </div>
+              </td>
               </tr>
+              <tr>
+              <td class="schedule-time">09:45–10:30</td>
+              <td class="schedule-desc">
+                  <div class="talk-title"> When Do LLMs Memorize? Foundations, Privacy Attacks, and Multilingual Insights </div>
+                  <div class="talk-speaker"> Dr. Qiongxiu Li (Jane)  </div>
+                  <div class="talk-abstract">
+                    Large Language Models (LLMs) demonstrate remarkable generalization abilities, yet they are also known to memorize substantial amounts of training data. This talk investigates the mechanisms that give rise to memorization in machine learning, the conditions under which it emerges, and the key trade-offs that arise when attempting to mitigate it. Given the close connection between memorization and privacy risks, we review major privacy attacks—particularly membership inference attacks—highlighting what these methods reveal about training data and to what extent their outcomes are consistent with different notions of memorization.  We then present a case study of multilingual LLMs, showing how memorization and privacy vulnerabilities vary across languages and how cross-lingual interactions shape these risks. This analysis highlights structural challenges specific to multilingual models and points to broader implications for how such models should be evaluated and deployed in practice. The talk concludes by summarizing key takeaways and outlining several promising directions for future research. 
+                </div>
+              </td>
+             </tr>
               <tr>
                 <td class="schedule-time">10:30–11:00</td>
                 <td class="schedule-desc">Coffee break</td>
               </tr>
               <tr>
-                <td class="schedule-time">11:00–12:30</td>
-                <td class="schedule-desc">Poster session + Socials</td>
+              <td class="schedule-time">11:00–11:45</td>
+              <td class="schedule-desc">
+                  <div class="talk-title"> Society-centered AI: An Integrative Perspective on Algorithmic Fairness</div>
+                  <div class="talk-speaker"> Dr. Isabel Valera    </div>
+                  <div class="talk-abstract">
+                    In this talk, I will share my never-ending learning journey on algorithmic fairness. I will give an overview of fairness in algorithmic decision making, reviewing the progress and wrong assumptions made along the way, which have led to new and fascinating research questions. Most of these questions remain open to this day, and become even more challenging in the era of generative AI. Thus, this talk will provide only few answers but many open challenges to motivate the need for a paradigm shift from owner-centered to society-centered AI. With society-centered AI, I aim to bring the values, goals, and needs of all relevant stakeholders into AI development as first-class citizens to ensure that these new technologies are at the service of society.
+                </div>
+              </td>
+             </tr>
+              <tr>
+                <td class="schedule-time">11:45–12:30</td>
+                <td class="schedule-desc">Poster Session (Room 19)</td>
               </tr>
               <tr>
                 <td class="schedule-time">12:30–13:30</td>
@@ -671,7 +717,7 @@
               </tr>
               <tr>
                 <td class="schedule-time">13:30–15:00</td>
-                <td class="schedule-desc">Talks</td>
+                <td class="schedule-desc">Informal AI Safety Social</td>
               </tr>
               <tr>
                 <td class="schedule-time">15:00–20:00</td>
